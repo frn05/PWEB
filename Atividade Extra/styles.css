@@ -1,0 +1,155 @@
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* CORES PYTHON */
+:root {
+  --azul-python: #306998;
+  --amarelo-python: #FFD43B;
+  --fundo: #f4f6f8;
+  --texto: #333;
+  --branco: #fff;
+}
+
+/* GERAL */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: var(--fundo);
+  color: var(--texto);
+}
+
+.container {
+  width: 90%;
+  max-width: 1100px;
+  margin: auto;
+}
+
+/* HEADER */
+.header {
+  background: var(--azul-python);
+  color: white;
+  padding: 15px 0;
+}
+
+.header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.nav a {
+  color: white;
+  text-decoration: none;
+}
+
+.nav a:hover {
+  color: var(--amarelo-python);
+}
+
+/* HERO */
+.hero {
+  background: linear-gradient(135deg, #306998, #1e4d7a);
+  color: white;
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.hero h2 {
+  font-size: 2.5rem;
+}
+
+.btn {
+  margin-top: 20px;
+  background: var(--amarelo-python);
+  color: black;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  opacity: 0.8;
+}
+
+/* SEÇÕES */
+.section {
+  padding: 40px 0;
+}
+
+/* CARDS */
+.card-grid {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  flex: 1;
+  min-width: 250px;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+/* CÓDIGO */
+.code {
+  background: #1e1e1e;
+  color: #00ff88;
+  padding: 20px;
+  border-radius: 10px;
+  overflow-x: auto;
+}
+
+/* FOOTER */
+.footer {
+  background: var(--azul-python);
+  color: white;
+  text-align: center;
+  padding: 15px;
+}
+
+/* RESPONSIVO */
+@media (max-width: 768px) {
+  .nav ul {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.hero-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.hero-text {
+  flex: 1;
+}
+
+.hero-image {
+  flex: 1;
+  text-align: center;
+}
+
+.hero-image img {
+  max-width: 250px;
+  width: 100%;
+  animation: flutuar 3s ease-in-out infinite;
+}
