@@ -1,0 +1,95 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f4f4f4;
+}
+
+
+.menu {
+    background: #b71c1c;
+}
+
+.menu ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+}
+
+.menu li {
+    margin: 0 15px;
+}
+
+.menu a {
+    display: block;
+    padding: 15px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+
+.menu a:hover {
+    background: #8e0000;
+    border-radius: 5px;
+}
+
+header {
+    background: #c62828;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+
+.container {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-areas:
+        "destaque destaque destaque"
+        "politica esporte tecnologia"
+        "economia economia economia";
+    gap: 20px;
+    padding: 20px;
+}
+
+.noticia {
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+    transition: 0.3s;
+}
+
+
+.noticia:hover {
+    transform: translateY(-5px);
+}
+
+
+.noticia img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 6px;
+    margin: 10px 0;
+}
+
+.noticia h3 {
+    color: #c62828;
+    margin-bottom: 5px;
+}
+
+
+footer {
+    text-align: center;
+    padding: 15px;
+    background: #222;
+    color: #fff;
+    margin-top: 20px;
+}
