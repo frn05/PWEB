@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Pedra, Papel ou Tesoura</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background: linear-gradient(135deg, #4facfe, #00f2fe);
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #333;
+      }
+
+      .container {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        width: 350px;
+      }
+
+      h1 {
+        margin-bottom: 20px;
+        color: #4facfe;
+      }
+
+      .buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+      }
+
+      button {
+        flex: 1;
+        margin: 5px;
+        padding: 12px;
+        border: none;
+        border-radius: 10px;
+        background: #4facfe;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      button:hover {
+        background: #007bff;
+        transform: scale(1.05);
+      }
+
+      .result {
+        margin-top: 15px;
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      .choices {
+        margin-top: 15px;
+        font-size: 16px;
+      }
+
+      .highlight {
+        color: #007bff;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Pedra, Papel ou Tesoura</h1>
+
+      <div class="buttons">
+        <button onclick="jogar('pedra')">🪨 Pedra</button>
+        <button onclick="jogar('papel')">📄 Papel</button>
+        <button onclick="jogar('tesoura')">✂️ Tesoura</button>
+      </div>
+
+      <div class="choices">
+        Você: <span id="usuario" class="highlight">-</span><br />
+        Computador: <span id="computador" class="highlight">-</span>
+      </div>
+
+      <div class="result" id="resultado">Escolha uma opção</div>
+    </div>
+
+    <script>
+      function jogar(escolhaUsuario) {
+        const opcoes = ["pedra", "papel", "tesoura"];
+
+        // Escolha aleatória do computador
+        const indice = Math.floor(Math.random() * 3);
+        const escolhaComputador = opcoes[indice];
+
+        document.getElementById("usuario").textContent = escolhaUsuario;
+        document.getElementById("computador").textContent = escolhaComputador;
+
+        let resultado = "";
+
+        if (escolhaUsuario === escolhaComputador) {
+          resultado = "Empate!";
+        } else if (
+          (escolhaUsuario === "pedra" && escolhaComputador === "tesoura") ||
+          (escolhaUsuario === "tesoura" && escolhaComputador === "papel") ||
+          (escolhaUsuario === "papel" && escolhaComputador === "pedra")
+        ) {
+          resultado = "Você venceu! 🎉";
+        } else {
+          resultado = "Computador venceu! 🤖";
+        }
+
+        document.getElementById("resultado").textContent = resultado;
+      }
+    </script>
+  </body>
+</html>
