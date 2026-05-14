@@ -1,0 +1,210 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:wght@400;500&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #f5f0e8;
+  --card-bg: #ffffff;
+  --accent: #1a1a2e;
+  --accent2: #e63946;
+  --text: #1a1a2e;
+  --muted: #8a8a9a;
+  --border: #d4cfc4;
+  --radius: 16px;
+}
+
+body {
+  background-color: var(--bg);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Syne', sans-serif;
+  padding: 24px;
+}
+
+/* Textura sutil no fundo */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%231a1a2e' fill-opacity='0.03'%3E%3Ccircle cx='20' cy='20' r='1'/%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 48px 40px;
+  width: 100%;
+  max-width: 480px;
+  box-shadow:
+    0 2px 4px rgba(0,0,0,0.04),
+    0 8px 24px rgba(0,0,0,0.08),
+    0 0 0 1px var(--border);
+  position: relative;
+  animation: fadeUp 0.5s ease both;
+}
+
+/* Detalhe decorativo no topo */
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 40px; right: 40px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent2), var(--accent));
+  border-radius: 0 0 4px 4px;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.titulo {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 32px;
+  letter-spacing: -0.03em;
+}
+
+/* Campo de texto */
+.campo label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.campo input[type="text"] {
+  width: 100%;
+  padding: 12px 16px;
+  font-family: 'DM Mono', monospace;
+  font-size: 1rem;
+  color: var(--text);
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.campo input[type="text"]:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(26,26,46,0.08);
+}
+
+/* Radio buttons customizados */
+.opcoes {
+  display: flex;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  padding: 10px 18px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  flex: 1;
+  justify-content: center;
+  transition: all 0.2s;
+  user-select: none;
+}
+
+.radio-label:hover {
+  border-color: var(--accent);
+  color: var(--text);
+}
+
+.radio-label input[type="radio"] {
+  display: none;
+}
+
+.radio-custom {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  display: inline-block;
+  position: relative;
+  transition: border-color 0.2s;
+  flex-shrink: 0;
+}
+
+.radio-label input[type="radio"]:checked ~ .radio-custom {
+  border-color: var(--accent2);
+}
+
+.radio-label input[type="radio"]:checked ~ .radio-custom::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--accent2);
+}
+
+.radio-label:has(input:checked) {
+  border-color: var(--accent);
+  color: var(--text);
+  background: rgba(26,26,46,0.03);
+}
+
+/* Área de resultado */
+.resultado {
+  margin-top: 28px;
+  background: var(--bg);
+  border-radius: 10px;
+  padding: 20px;
+  min-height: 80px;
+  border: 1.5px solid var(--border);
+  transition: border-color 0.3s;
+  position: relative;
+}
+
+.resultado.ativo {
+  border-color: var(--accent);
+}
+
+.resultado-label {
+  position: absolute;
+  top: -10px;
+  left: 16px;
+  background: var(--bg);
+  padding: 0 6px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+#textoResultado {
+  font-family: 'DM Mono', monospace;
+  font-size: 1.1rem;
+  color: var(--text);
+  word-break: break-word;
+  min-height: 1.5em;
+  transition: all 0.2s;
+}
+
+#textoResultado.vazio {
+  color: var(--muted);
+}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Atividade 14</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="card">
+    <h1 class="titulo">Transformador de Texto</h1>
+
+    <div class="campo">
+      <label for="inputTexto">Digite seu texto:</label>
+      <input type="text" id="inputTexto" placeholder="Escreva algo aqui..." />
+    </div>
+
+    <div class="opcoes">
+      <label class="radio-label">
+        <input type="radio" name="caso" value="maiusculo" id="maiusculo" />
+        <span class="radio-custom"></span>
+        MAIÚSCULAS
+      </label>
+
+      <label class="radio-label">
+        <input type="radio" name="caso" value="minusculo" id="minusculo" />
+        <span class="radio-custom"></span>
+        minúsculas
+      </label>
+    </div>
+
+    <div class="resultado" id="resultado">
+      <span class="resultado-label">Resultado</span>
+      <p id="textoResultado">—</p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
