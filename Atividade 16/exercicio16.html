@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercício 2 - Seleção de Cursos Fatec Sorocaba</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+            padding: 50px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            color: #00bcd4;
+            font-size: 32px;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .header p {
+            color: #666;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+
+        select {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 20px;
+            padding-right: 40px;
+        }
+
+        select:hover {
+            border-color: #00bcd4;
+            box-shadow: 0 0 0 3px rgba(0, 188, 212, 0.1);
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #00bcd4;
+            box-shadow: 0 0 0 4px rgba(0, 188, 212, 0.2);
+        }
+
+        .info-section {
+            background: linear-gradient(135deg, #f5f5f5 0%, #efefef 100%);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .info-section.show {
+            display: block;
+            animation: slideIn 0.4s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .course-info {
+            display: none;
+        }
+
+        .course-info.active {
+            display: block;
+        }
+
+        .course-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .course-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #00bcd4 0%, #0097a7 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            margin-right: 15px;
+        }
+
+        .course-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #00bcd4;
+        }
+
+        .course-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .detail-item {
+            background: white;
+            padding: 10px;
+            border-radius: 6px;
+            border-left: 3px solid #00bcd4;
+        }
+
+        .detail-label {
+            font-size: 12px;
+            color: #666;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .course-description {
+            background: white;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 3px solid #4caf50;
+            margin-top: 15px;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #00bcd4 0%, #0097a7 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 30px;
+            margin: 0 auto 20px;
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            color: #333;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .modal-header p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .modal-body {
+            text-align: center;
+            margin: 20px 0;
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 8px;
+        }
+
+        .modal-body p {
+            color: #333;
+            font-size: 15px;
+            margin-bottom: 10px;
+        }
+
+        .modal-course-name {
+            font-weight: bold;
+            color: #00bcd4;
+            font-size: 16px;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        .modal-btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-confirm {
+            background: linear-gradient(135deg, #4caf50 0%, #388e3c 100%);
+            color: white;
+        }
+
+        .btn-confirm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(76, 175, 80, 0.3);
+        }
+
+        .btn-cancel {
+            background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);
+            color: white;
+        }
+
+        .btn-cancel:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(244, 67, 54, 0.3);
+        }
+
+        /* Janela de Detalhes */
+        .details-window {
+            display: none;
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            width: 600px;
+            height: 300px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            z-index: 999;
+            animation: slideInRight 0.4s ease;
+        }
+
+        .details-window.show {
+            display: block;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(650px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .window-header {
+            background: linear-gradient(135deg, #00bcd4 0%, #0097a7 100%);
+            padding: 15px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: move;
+        }
+
+        .window-header h3 {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .close-btn {
+            background: rgba(255, 255, 255, 0.3);
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .window-body {
+            padding: 20px;
+            overflow-y: auto;
+            height: calc(300px - 50px);
+        }
+
+        .window-body h4 {
+            color: #00bcd4;
+            margin-top: 15px;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .window-body p {
+            color: #555;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .window-body ul {
+            margin-left: 20px;
+            color: #555;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .window-body li {
+            margin-bottom: 5px;
+        }
+
+        /* Responsivo */
+        @media (max-width: 900px) {
+            .details-window {
+                width: 100%;
+                height: auto;
+                right: 0;
+                bottom: 0;
+                border-radius: 12px 12px 0 0;
+                max-height: 80vh;
+            }
+
+            @keyframes slideInRight {
+                from {
+                    transform: translateY(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .course-details {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                padding: 30px 20px;
+            }
+
+            .details-window {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Exercício 2</h1>
+            <p>Seleção de Cursos - Fatec Sorocaba</p>
+        </div>
+
+        <form>
+            <div class="form-group">
+                <label for="courseSelect">Selecione um Curso:</label>
+                <select id="courseSelect">
+                    <option value="">-- Escolha um curso --</option>
+                    <option value="ads">Análise e Desenvolvimento de Sistemas</option>
+                    <option value="gcc">Gestão Comercial</option>
+                    <option value="log">Logística</option>
+                    <option value="rh">Gestão de Recursos Humanos</option>
+                    <option value="gpt">Gestão da Produção Industrial</option>
+                    <option value="tec">Tecnologia em Sistemas Biométicos</option>
+                </select>
+            </div>
+
+            <!-- Info Section -->
+            <div class="info-section" id="infoSection">
+                <div class="course-info" id="courseAds">
+                    <div class="course-header">
+                        <div class="course-icon">💻</div>
+                        <div class="course-title">Análise e Desenvolvimento de Sistemas</div>
+                    </div>
+                    <div class="course-details">
+                        <div class="detail-item">
+                            <div class="detail-label">Duração</div>
+                            <div class="detail-value">3 Anos</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Períodos</div>
+                            <div class="detail-value">6 Semestres</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Vagas</div>
+                            <div class="detail-value">60 por turma</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Turno</div>
+                            <div class="detail-value">Noturno</div>
+                        </div>
+                    </div>
+                    <div class="course-description">
+                        <strong>Descrição:</strong> Preparação de profissionais para atuar no desenvolvimento de sistemas de informação. Abrange análise, design, implementação e manutenção de softwares.
+                    </div>
+                </div>
+
+                <div class="course-info" id="courseGcc">
+                    <div class="course-header">
+                        <div class="course-icon">📊</div>
+                        <div class="course-title">Gestão Comercial</div>
+                    </div>
+                    <div class="course-details">
+                        <div class="detail-item">
+                            <div class="detail-label">Duração</div>
+                            <div class="detail-value">2 Anos</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Períodos</div>
+                            <div class="detail-value">4 Semestres</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Vagas</div>
+                            <div class="detail-value">40 por turma</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Turno</div>
+                            <div class="detail-value">Noturno</div>
+                        </div>
+                    </div>
+                    <div class="course-description">
+                        <strong>Descrição:</strong> Formação de gestores para o mercado comercial. Desenvolve competências em vendas, negociação, relacionamento com clientes e estratégias comerciais.
+                    </div>
+                </div>
+
+                <div class="course-info" id="courseLog">
+                    <div class="course-header">
+                        <div class="course-icon">📦</div>
+                        <div class="course-title">Logística</div>
+                    </div>
+                    <div class="course-details">
+                        <div class="detail-item">
+                            <div class="detail-label">Duração</div>
+                            <div class="detail-value">2 Anos</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Períodos</div>
+                            <div class="detail-value">4 Semestres</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Vagas</div>
+                            <div class="detail-value">50 por turma</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Turno</div>
+                            <div class="detail-value">Integral</div>
+                        </div>
+                    </div>
+                    <div class="course-description">
+                        <strong>Descrição:</strong> Qualificação para gerenciar processos logísticos, supply chain, armazenagem e distribuição. Essencial para empresas que lidam com movimentação de produtos.
+                    </div>
+                </div>
+
+                <div class="course-info" id="courseRh">
+                    <div class="course-header">
+                        <div class="course-icon">👥</div>
+                        <div class="course-title">Gestão de Recursos Humanos</div>
+                    </div>
+                    <div class="course-details">
+                        <div class="detail-item">
+                            <div class="detail-label">Duração</div>
+                            <div class="detail-value">2 Anos</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Períodos</div>
+                            <div class="detail-value">4 Semestres</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Vagas</div>
+                            <div class="detail-value">35 por turma</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Turno</div>
+                            <div class="detail-value">Noturno</div>
+                        </div>
+                    </div>
+                    <div class="course-description">
+                        <strong>Descrição:</strong> Preparação de profissionais para gerir pessoas nas organizações. Aborda recrutamento, seleção, treinamento, desenvolvimento e relações trabalhistas.
+                    </div>
+                </div>
+
+                <div class="course-info" id="courseGpt">
+                    <div class="course-header">
+                        <div class="course-icon">🏭</div>
+                        <div class="course-title">Gestão da Produção Industrial</div>
+                    </div>
+                    <div class="course-details">
+                        <div class="detail-item">
+                            <div class="detail-label">Duração</div>
+                            <div class="detail-value">2 Anos</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Períodos</div>
+                            <div class="detail-value">4 Semestres</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Vagas</div>
+                            <div class="detail-value">45 por turma</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Turno</div>
+                            <div class="detail-value">Integral</div>
+                        </div>
+                    </div>
+                    <div class="course-description">
+                        <strong>Descrição:</strong> Formação de gestores para a indústria. Trabalha otimização de processos, controle de qualidade, planejamento de produção e eficiência operacional.
+                    </div>
+                </div>
+
+                <div class="course-info" id="courseTec">
+                    <div class="course-header">
+                        <div class="course-icon">🔬</div>
+                        <div class="course-title">Tecnologia em Sistemas Biométicos</div>
+                    </div>
+                    <div class="course-details">
+                        <div class="detail-item">
+                            <div class="detail-label">Duração</div>
+                            <div class="detail-value">3 Anos</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Períodos</div>
+                            <div class="detail-value">6 Semestres</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Vagas</div>
+                            <div class="detail-value">30 por turma</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Turno</div>
+                            <div class="detail-value">Integral</div>
+                        </div>
+                    </div>
+                    <div class="course-description">
+                        <strong>Descrição:</strong> Especialização em tecnologias biométricas. Prepara profissionais para trabalhar com sistemas de identificação biométrica, segurança e tecnologias afins.
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Modal de Confirmação -->
+    <div class="modal" id="confirmModal">
+        <div class="modal-content">
+            <div class="modal-icon">❓</div>
+            <div class="modal-header">
+                <h2>Confirmar Seleção</h2>
+                <p>Você deseja abrir a janela contendo as informações sobre o curso?</p>
+            </div>
+            <div class="modal-body">
+                <p>Curso selecionado:</p>
+                <p class="modal-course-name" id="modalCourseName"></p>
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-btn btn-confirm" onclick="confirmarCurso()">Ok</button>
+                <button class="modal-btn btn-cancel" onclick="cancelarCurso()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Janela de Detalhes (600x300px) -->
+    <div class="details-window" id="detailsWindow">
+        <div class="window-header">
+            <h3 id="windowTitle">Informações do Curso</h3>
+            <button class="close-btn" onclick="fecharJanela()">×</button>
+        </div>
+        <div class="window-body" id="windowBody">
+            <!-- Conteúdo será inserido aqui -->
+        </div>
+    </div>
+
+    <script>
+        let cursoSelecionado = null;
+        const mapeoCursos = {
+            'ads': { id: 'courseAds', nome: 'Análise e Desenvolvimento de Sistemas' },
+            'gcc': { id: 'courseGcc', nome: 'Gestão Comercial' },
+            'log': { id: 'courseLog', nome: 'Logística' },
+            'rh': { id: 'courseRh', nome: 'Gestão de Recursos Humanos' },
+            'gpt': { id: 'courseGpt', nome: 'Gestão da Produção Industrial' },
+            'tec': { id: 'courseTec', nome: 'Tecnologia em Sistemas Biométicos' }
+        };
+
+        // Evento onchange do select
+        document.getElementById('courseSelect').addEventListener('change', function() {
+            const valorSelecionado = this.value;
+
+            if (valorSelecionado === '') {
+                document.getElementById('infoSection').classList.remove('show');
+                return;
+            }
+
+            // Mostrar informações na página
+            document.getElementById('infoSection').classList.add('show');
+            Object.keys(mapeoCursos).forEach(key => {
+                document.getElementById(mapeoCursos[key].id).classList.remove('active');
+            });
+            document.getElementById(mapeoCursos[valorSelecionado].id).classList.add('active');
+
+            // Armazenar curso selecionado
+            cursoSelecionado = valorSelecionado;
+
+            // Mostrar modal de confirmação
+            setTimeout(() => {
+                exibirModal(valorSelecionado);
+            }, 300);
+        });
+
+        // Função para exibir o modal
+        function exibirModal(curso) {
+            const modal = document.getElementById('confirmModal');
+            const nomeCurso = mapeoCursos[curso].nome;
+            document.getElementById('modalCourseName').textContent = nomeCurso;
+            modal.classList.add('show');
+        }
+
+        // Função para confirmar e abrir janela de detalhes
+        function confirmarCurso() {
+            const modal = document.getElementById('confirmModal');
+            modal.classList.remove('show');
+
+            // Carregar informações na janela de detalhes
+            carregarDetalhesNaJanela(cursoSelecionado);
+            document.getElementById('detailsWindow').classList.add('show');
+        }
+
+        // Função para cancelar
+        function cancelarCurso() {
+            const modal = document.getElementById('confirmModal');
+            modal.classList.remove('show');
+
+            // Resetar select
+            document.getElementById('courseSelect').value = '';
+            document.getElementById('infoSection').classList.remove('show');
+            cursoSelecionado = null;
+        }
+
+        // Função para carregar detalhes na janela
+        function carregarDetalhesNaJanela(curso) {
+            const windowTitle = document.getElementById('windowTitle');
+            const windowBody = document.getElementById('windowBody');
+            const info = mapeoCursos[curso];
+
+            windowTitle.textContent = info.nome;
+
+            // Obter o elemento do curso
+            const courseElement = document.getElementById(info.id);
+            const courseDetails = courseElement.innerHTML;
+
+            // Preparar conteúdo para a janela
+            let conteudo = '<div style="margin-top: 10px;">';
+
+            // Adicionar informações estruturadas
+            const detailItems = courseElement.querySelectorAll('.detail-item');
+            detailItems.forEach(item => {
+                const label = item.querySelector('.detail-label').textContent;
+                const value = item.querySelector('.detail-value').textContent;
+                conteudo += `<h4>${label}</h4><p>${value}</p>`;
+            });
+
+            const description = courseElement.querySelector('.course-description');
+            if (description) {
+                conteudo += `<h4>Descrição</h4><p>${description.innerHTML}</p>`;
+            }
+
+            conteudo += '</div>';
+            windowBody.innerHTML = conteudo;
+        }
+
+        // Função para fechar a janela
+        function fecharJanela() {
+            document.getElementById('detailsWindow').classList.remove('show');
+        }
+
+        // Fechar modal ao clicar fora
+        document.getElementById('confirmModal').addEventListener('click', function(event) {
+            if (event.target === this) {
+                cancelarCurso();
+            }
+        });
+    </script>
+</body>
+</html>
