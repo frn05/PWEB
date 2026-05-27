@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercício 1 - Formulário Validado</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #00bcd4;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        .form-section {
+            background: linear-gradient(135deg, #00bcd4 0%, #0097a7 100%);
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .form-section h2 {
+            color: white;
+            font-size: 18px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            color: white;
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: 'Arial', sans-serif;
+            transition: box-shadow 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        textarea:focus {
+            outline: none;
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+        }
+
+        input[type="text"].error,
+        input[type="email"].error,
+        textarea.error {
+            background-color: #ffebee;
+            border: 2px solid #f44336;
+        }
+
+        input[type="text"].success,
+        input[type="email"].success,
+        textarea.success {
+            background-color: #e8f5e9;
+            border: 2px solid #4caf50;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .error-message {
+            color: #f44336;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+            font-weight: bold;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .radio-group {
+            margin-bottom: 20px;
+        }
+
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            font-weight: normal;
+            color: white;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .radio-group input[type="radio"] {
+            margin-right: 10px;
+            cursor: pointer;
+            width: 16px;
+            height: 16px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 14px;
+            font-weight: bold;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-submit {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        .btn-submit:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        .btn-reset {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .btn-reset:hover {
+            background-color: #da190b;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(244, 67, 54, 0.4);
+        }
+
+        .btn-reset:active {
+            transform: translateY(0);
+        }
+
+        .success-message {
+            background-color: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            border-radius: 4px;
+            color: #2e7d32;
+            margin-bottom: 20px;
+            display: none;
+            font-weight: bold;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .requirements {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 30px;
+            font-size: 12px;
+            color: #333;
+        }
+
+        .requirements h3 {
+            color: #00bcd4;
+            margin-bottom: 10px;
+        }
+
+        .requirements ul {
+            list-style-position: inside;
+            line-height: 1.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Exercício 1</h1>
+
+        <div class="success-message" id="successMessage">
+            ✓ Formulário enviado com sucesso!
+        </div>
+
+        <form name="nomeform" id="nomeform">
+            <div class="form-section">
+                <h2>Formulário Principal</h2>
+
+                <!-- Campo Nome -->
+                <div class="form-group">
+                    <label for="nome">Nome:</label>
+                    <input 
+                        type="text" 
+                        id="nome" 
+                        name="nome" 
+                        placeholder="Digite seu nome"
+                        required
+                    >
+                    <div class="error-message" id="erroNome"></div>
+                </div>
+
+                <!-- Campo Email -->
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        placeholder="Digite seu email"
+                        required
+                    >
+                    <div class="error-message" id="erroEmail"></div>
+                </div>
+
+                <!-- Campo Comentário -->
+                <div class="form-group">
+                    <label for="comentario">Comentário:</label>
+                    <textarea 
+                        id="comentario" 
+                        name="comentario" 
+                        placeholder="Digite seu comentário"
+                        required
+                    ></textarea>
+                    <div class="error-message" id="erroComentario"></div>
+                </div>
+
+                <!-- Grupo Radio Pesquisa -->
+                <div class="form-group">
+                    <label style="font-weight: bold;">Pesquisa:</label>
+                    <small style="color: rgba(255, 255, 255, 0.8); display: block; margin-bottom: 10px;">Primero vez neste página?</small>
+                    <div class="radio-group">
+                        <label>
+                            <input 
+                                type="radio" 
+                                name="pesquisa" 
+                                value="sim"
+                                required
+                            > 
+                            <span>Sim</span>
+                        </label>
+                        <label>
+                            <input 
+                                type="radio" 
+                                name="pesquisa" 
+                                value="nao"
+                                required
+                            > 
+                            <span>Não</span>
+                        </label>
+                    </div>
+                    <div class="error-message" id="erroPesquisa"></div>
+                </div>
+
+                <!-- Botões -->
+                <div class="button-group">
+                    <button type="submit" class="btn-submit">Enviar</button>
+                    <button type="reset" class="btn-reset">Limpar</button>
+                </div>
+            </div>
+        </form>
+
+        <!-- Requisitos -->
+        <div class="requirements">
+            <h3>✓ Requisitos Implementados:</h3>
+            <ul>
+                <li>Validação de formulário no evento onsubmit</li>
+                <li>Nome com mínimo de 10 caracteres</li>
+                <li>Email com validação type=email</li>
+                <li>Comentário com mínimo de 20 caracteres</li>
+                <li>Pesquisa obrigatória (Sim/Não)</li>
+                <li>Uso de document.nomeform.elements[]</li>
+                <li>Feedback visual de erros</li>
+                <li>Botões Enviar e Limpar funcionais</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Obter referência ao formulário
+        const form = document.nomeform;
+
+        // Função de validação principal
+        function validarFormulario(event) {
+            event.preventDefault();
+
+            // Resetar todas as mensagens de erro
+            limparErros();
+
+            // Variáveis de controle
+            let formularioValido = true;
+
+            // Validar Nome (mínimo 10 caracteres)
+            const nome = document.nomeform.elements['nome'];
+            if (nome.value.trim().length < 10) {
+                exibirErro('erroNome', 'Nome deve ter no mínimo 10 caracteres.');
+                aplicarEstiloErro(nome);
+                formularioValido = false;
+            } else {
+                aplicarEstiloSucesso(nome);
+            }
+
+            // Validar Email (type=email)
+            const email = document.nomeform.elements['email'];
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email.value.trim())) {
+                exibirErro('erroEmail', 'Email inválido. Use um email válido.');
+                aplicarEstiloErro(email);
+                formularioValido = false;
+            } else {
+                aplicarEstiloSucesso(email);
+            }
+
+            // Validar Comentário (mínimo 20 caracteres)
+            const comentario = document.nomeform.elements['comentario'];
+            if (comentario.value.trim().length < 20) {
+                exibirErro('erroComentario', 'Comentário deve ter no mínimo 20 caracteres.');
+                aplicarEstiloErro(comentario);
+                formularioValido = false;
+            } else {
+                aplicarEstiloSucesso(comentario);
+            }
+
+            // Validar Pesquisa (obrigatório)
+            const pesquisaElements = document.nomeform.elements['pesquisa'];
+            let pesquisaSelecionada = false;
+            for (let i = 0; i < pesquisaElements.length; i++) {
+                if (pesquisaElements[i].checked) {
+                    pesquisaSelecionada = true;
+                    break;
+                }
+            }
+            if (!pesquisaSelecionada) {
+                exibirErro('erroPesquisa', 'Selecione uma opção para Pesquisa.');
+                formularioValido = false;
+            }
+
+            // Se formulário é válido, exibir mensagem de sucesso
+            if (formularioValido) {
+                exibirSucesso();
+            }
+
+            return false; // Prevenir envio real do formulário
+        }
+
+        // Função para exibir erro
+        function exibirErro(elementoId, mensagem) {
+            const erroElement = document.getElementById(elementoId);
+            erroElement.textContent = '✗ ' + mensagem;
+            erroElement.classList.add('show');
+        }
+
+        // Função para limpar erros
+        function limparErros() {
+            const erros = document.querySelectorAll('.error-message');
+            erros.forEach(erro => {
+                erro.textContent = '';
+                erro.classList.remove('show');
+            });
+
+            const inputs = document.querySelectorAll('input[type="text"], input[type="email"], textarea');
+            inputs.forEach(input => {
+                input.classList.remove('error', 'success');
+            });
+        }
+
+        // Função para aplicar estilo de erro
+        function aplicarEstiloErro(elemento) {
+            elemento.classList.remove('success');
+            elemento.classList.add('error');
+        }
+
+        // Função para aplicar estilo de sucesso
+        function aplicarEstiloSucesso(elemento) {
+            elemento.classList.remove('error');
+            elemento.classList.add('success');
+        }
+
+        // Função para exibir mensagem de sucesso
+        function exibirSucesso() {
+            const successMessage = document.getElementById('successMessage');
+            successMessage.classList.add('show');
+
+            // Ocultar mensagem após 4 segundos
+            setTimeout(() => {
+                successMessage.classList.remove('show');
+            }, 4000);
+        }
+
+        // Adicionar evento submit ao formulário
+        form.addEventListener('submit', validarFormulario);
+
+        // Limpeza ao clicar em reset
+        form.addEventListener('reset', () => {
+            limparErros();
+            document.getElementById('successMessage').classList.remove('show');
+        });
+    </script>
+</body>
+</html>
